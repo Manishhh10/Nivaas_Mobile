@@ -23,6 +23,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'description': 'Enjoy cultural activities, trekking guides, and adventure tours',
       'icon': '🎒',
     },
+    {
+      'title': 'Connect with Locals',
+      'description': 'Experience Nepal through the eyes of local hosts and guides',
+      'icon': '🤝',
+    },
   ];
 
   @override
