@@ -1,7 +1,8 @@
-// lib/screens/register_screen.dart
 import 'package:flutter/material.dart';
+import 'package:nivaas/screens/login_screen.dart';
 import '../widgets/my_button.dart';
 import '../widgets/my_textfield.dart';
+import 'home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -87,7 +88,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 MyButton(
                   text: 'Register',
                   onPressed: () {
-
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    );
                   },
                 ),
                 const SizedBox(height: 20),
