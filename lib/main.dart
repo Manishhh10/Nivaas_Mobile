@@ -1,5 +1,5 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:nivaas/screens/splash_screen.dart';
 
 void main() {
   runApp(const NivaasApp());
@@ -17,6 +17,7 @@ class NivaasApp extends StatelessWidget {
         primarySwatch: Colors.deepOrange,
         useMaterial3: true,
       ),
+      home: const SplashScreen(),
     );
   }
 }
