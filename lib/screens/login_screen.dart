@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/my_button.dart';
 import '../widgets/my_textfield.dart';
 import 'register_screen.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -86,7 +87,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 MyButton(
                   text: 'Login',
                   onPressed: () {
-
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    );
                   },
                 ),
                 const SizedBox(height: 20),

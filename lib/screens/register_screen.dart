@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nivaas/screens/login_screen.dart';
 import '../widgets/my_button.dart';
 import '../widgets/my_textfield.dart';
-import 'home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
