@@ -18,6 +18,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'description': 'Discover authentic homestays, cottages, and apartments across Nepal',
       'icon': '🏠',
     },
+    {
+      'title': 'Book Local Experiences',
+      'description': 'Enjoy cultural activities, trekking guides, and adventure tours',
+      'icon': '🎒',
+    },
   ];
 
   @override
