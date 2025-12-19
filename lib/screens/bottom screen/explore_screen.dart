@@ -9,8 +9,7 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   bool isHomesSelected = true;
-
-  final Color primaryOrange = const Color(0xFFFF6F00);
+  final Color primaryOrange = const Color(0xFFFF6518);
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +19,23 @@ class _ExploreScreenState extends State<ExploreScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 16),
-
             _searchBar(),
-
             const SizedBox(height: 20),
-
             _topCategories(),
-
             const SizedBox(height: 20),
-
             _tripHighlightCard(),
-
             const SizedBox(height: 28),
 
+            // Section Titles
             if (isHomesSelected) ...[
+              _sectionTitle(context, "Homes"),
+              const SizedBox(height: 12),
+              _homesList(),
+              const SizedBox(height: 24),
               _sectionTitle(context, "Services in Nepal"),
               const SizedBox(height: 12),
               _servicesList(),
-            ],
-
-            if (!isHomesSelected) ...[
+            ] else ...[
               _sectionTitle(context, "Popular Experiences"),
               const SizedBox(height: 12),
               _experienceGrid(),
@@ -72,10 +68,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           children: const [
             Icon(Icons.search, color: Colors.black54),
             SizedBox(width: 12),
-            Text(
-              "Where are you going?",
-              style: TextStyle(color: Colors.black54),
-            ),
+            Text("Where are you going?", style: TextStyle(color: Colors.black54)),
           ],
         ),
       ),
@@ -86,29 +79,14 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _categoryItem(
-          icon: Icons.home_rounded,
-          label: "Homes",
-          isActive: isHomesSelected,
-          onTap: () => setState(() => isHomesSelected = true),
-        ),
+        _categoryItem(Icons.home_rounded, "Homes", isHomesSelected, () => setState(() => isHomesSelected = true)),
         const SizedBox(width: 48),
-        _categoryItem(
-          icon: Icons.landscape_rounded,
-          label: "Experiences",
-          isActive: !isHomesSelected,
-          onTap: () => setState(() => isHomesSelected = false),
-        ),
+        _categoryItem(Icons.landscape_rounded, "Experiences", !isHomesSelected, () => setState(() => isHomesSelected = false)),
       ],
     );
   }
 
-  Widget _categoryItem({
-    required IconData icon,
-    required String label,
-    required bool isActive,
-    required VoidCallback onTap,
-  }) {
+  Widget _categoryItem(IconData icon, String label, bool isActive, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -119,20 +97,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
               color: isActive ? primaryOrange.withOpacity(0.15) : Colors.white,
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 26,
-              color: isActive ? primaryOrange : Colors.black54,
-            ),
+            child: Icon(icon, size: 26, color: isActive ? primaryOrange : Colors.black54),
           ),
           const SizedBox(height: 6),
-          Text(
-            label,
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: isActive ? primaryOrange : Colors.black54,
-            ),
-          ),
+          Text(label, style: TextStyle(fontWeight: FontWeight.w600, color: isActive ? primaryOrange : Colors.black54)),
         ],
       ),
     );
@@ -144,12 +112,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              primaryOrange.withOpacity(0.9),
-              primaryOrange.withOpacity(0.6),
-            ],
-          ),
+          gradient: LinearGradient(colors: [primaryOrange.withOpacity(0.9), primaryOrange.withOpacity(0.6)]),
           borderRadius: BorderRadius.circular(24),
         ),
         child: Row(
@@ -158,41 +121,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Text(
-                    "Upcoming Trip",
-                    style: TextStyle(color: Colors.white70),
-                  ),
+                  Text("Upcoming Trip", style: TextStyle(color: Colors.white70)),
                   SizedBox(height: 6),
-                  Text(
-                    "Pokhara Getaway",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text("Pokhara Getaway", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
                   SizedBox(height: 4),
-                  Text(
-                    "18–22 May · 2 guests",
-                    style: TextStyle(color: Colors.white70),
-                  ),
+                  Text("18–22 May · 2 guests", style: TextStyle(color: Colors.white70)),
                 ],
               ),
             ),
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                "3\nDays",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: primaryOrange,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
+              child: Text("3\nDays", textAlign: TextAlign.center, style: TextStyle(color: primaryOrange, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -200,6 +140,76 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
+  Widget _homesList() {
+    return SizedBox(
+      height: 240,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        children: [
+          _homeCard(
+            imageAsset: 'assets/images/home1.png',
+            title: "Explore Notre Dame with a restoration architect",
+            subtitle: "From Rs. 7,100 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home2.png',
+            title: "Make pastries with an innovative French bakery",
+            subtitle: "From Rs. 9,400 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home3.png',
+            title: "Guided tour of Bhaktapur temples",
+            subtitle: "From Rs. 2,500 / guest",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _homeCard({
+    required String imageAsset,
+    required String title,
+    required String subtitle,
+  }) {
+    return Container(
+      width: 180,
+      margin: const EdgeInsets.only(right: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12)],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
+            child: Image.asset(
+              imageAsset,
+              height: 140,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis),
+                const SizedBox(height: 4),
+                Text(subtitle, style: const TextStyle(color: Colors.black54, fontSize: 12)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+}
+
+
+  // SERVICES
   Widget _servicesList() {
     return SizedBox(
       height: 220,
@@ -222,12 +232,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 12,
-          )
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12)],
       ),
       child: Column(
         children: [
@@ -236,26 +241,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
             child: Container(
               height: 120,
               color: primaryOrange.withOpacity(0.15),
-              child: Center(
-                child: Icon(icon, size: 42, color: primaryOrange),
-              ),
+              child: Center(child: Icon(icon, size: 42, color: primaryOrange)),
             ),
           ),
           const SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.w600),
-          ),
+          Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 4),
-          Text(
-            location,
-            style: const TextStyle(color: Colors.black45, fontSize: 12),
-          ),
+          Text(location, style: const TextStyle(color: Colors.black45, fontSize: 12)),
         ],
       ),
     );
   }
 
+  // EXPERIENCES
   Widget _experienceGrid() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -281,12 +279,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 12,
-          )
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12)],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -296,27 +289,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
             child: Container(
               height: 140,
               color: primaryOrange.withOpacity(0.15),
-              child: const Center(
-                child: Icon(Icons.landscape, size: 42, color: Colors.orange),
-              ),
+              child: const Center(child: Icon(Icons.landscape, size: 42, color: Colors.orange)),
             ),
           ),
           const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              title,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-          ),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 10), child: Text(title, style: const TextStyle(fontWeight: FontWeight.w600))),
           const SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Text(
-              price,
-              style: const TextStyle(color: Colors.black54, fontSize: 12),
-            ),
-          ),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 10), child: Text(price, style: const TextStyle(color: Colors.black54, fontSize: 12))),
         ],
       ),
     );
@@ -325,12 +304,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget _sectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-      ),
+      child: Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
     );
   }
 }
