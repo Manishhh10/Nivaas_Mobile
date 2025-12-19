@@ -162,6 +162,36 @@ class _ExploreScreenState extends State<ExploreScreen> {
             title: "Guided tour of Bhaktapur temples",
             subtitle: "From Rs. 2,500 / guest",
           ),
+          _homeCard(
+            imageAsset: 'assets/images/home1.png',
+            title: "Explore Notre Dame with a restoration architect",
+            subtitle: "From Rs. 7,100 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home2.png',
+            title: "Make pastries with an innovative French bakery",
+            subtitle: "From Rs. 9,400 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home3.png',
+            title: "Guided tour of Bhaktapur temples",
+            subtitle: "From Rs. 2,500 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home1.png',
+            title: "Explore Notre Dame with a restoration architect",
+            subtitle: "From Rs. 7,100 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home2.png',
+            title: "Make pastries with an innovative French bakery",
+            subtitle: "From Rs. 9,400 / guest",
+          ),
+          _homeCard(
+            imageAsset: 'assets/images/home3.png',
+            title: "Guided tour of Bhaktapur temples",
+            subtitle: "From Rs. 2,500 / guest",
+          ),
         ],
       ),
     );
@@ -217,6 +247,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
+          _serviceCard("Photography", "Kathmandu", Icons.camera_alt),
+          _serviceCard("Private Chef", "Pokhara", Icons.restaurant),
+          _serviceCard("Local Guide", "Bhaktapur", Icons.map),
+          _serviceCard("Photography", "Kathmandu", Icons.camera_alt),
+          _serviceCard("Private Chef", "Pokhara", Icons.restaurant),
+          _serviceCard("Local Guide", "Bhaktapur", Icons.map),
           _serviceCard("Photography", "Kathmandu", Icons.camera_alt),
           _serviceCard("Private Chef", "Pokhara", Icons.restaurant),
           _serviceCard("Local Guide", "Bhaktapur", Icons.map),
