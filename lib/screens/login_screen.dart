@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nivaas/screens/bottom_navigation_screen.dart';
 import '../widgets/my_button.dart';
 import '../widgets/my_textfield.dart';
 import 'register_screen.dart';
-import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
                     );
                   },
                 ),
