@@ -1,4 +1,3 @@
-// lib/widgets/my_textfield.dart
 import 'package:flutter/material.dart';
 
 class MyTextfield extends StatelessWidget {
@@ -23,18 +22,6 @@ class MyTextfield extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: icon != null ? Icon(icon) : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.blue, width: 2),
-        ),
       ),
     );
   }
