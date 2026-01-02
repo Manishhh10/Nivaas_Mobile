@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nivaas/screens/bottom_navigation_screen.dart';
-import 'package:nivaas/theme/theme_data.dart';
-// import 'package:flutter_for_college/screens/dashboard_screen.dart';
+import 'package:nivaas/app/theme/app_theme.dart';
+import 'package:nivaas/screens/home_check_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,10 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Apps for College',
+      title: 'Nivaas',
       debugShowCheckedModeBanner: false,
-      theme: getApplicationTheme(),
-      home: const BottomNavigationScreen(),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      home: const HomeCheckScreen(),
     );
   }
 }

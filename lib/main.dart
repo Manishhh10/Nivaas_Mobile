@@ -1,35 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:nivaas/app.dart';
-// import 'screens/bottom_navigation_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nivaas/app/app.dart';
+import 'package:nivaas/core/services/hive/hive_service.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive
+  final hiveService = HiveService();
+  await hiveService.init();
+
+  // Set system UI overlay style
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
+
+  runApp(const ProviderScope(child: MyApp()));
 }
-
-
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:nivaas/screens/splash_screen.dart';
-
-// void main() {
-//   runApp(const NivaasApp());
-// }
-
-// class NivaasApp extends StatelessWidget {
-//   const NivaasApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Nivaas',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//         primarySwatch: Colors.deepOrange,
-//         useMaterial3: true,
-//       ),
-//       home: const SplashScreen(),
-//     );
-//   }
-// }
