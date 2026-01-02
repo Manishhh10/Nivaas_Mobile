@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nivaas/screens/bottom%20screen/explore_screen.dart';
-import 'package:nivaas/screens/bottom%20screen/notify_screen.dart';
-import 'package:nivaas/screens/bottom%20screen/profile_screen.dart';
-import 'package:nivaas/screens/bottom%20screen/trips_screen.dart';
-import 'package:nivaas/screens/bottom%20screen/wishlist_screen.dart';
-
+import 'package:nivaas/screens/bottom_screen/explore_screen.dart';
+import 'package:nivaas/screens/bottom_screen/notify_screen.dart';
+import 'package:nivaas/screens/bottom_screen/profile_screen.dart';
+import 'package:nivaas/screens/bottom_screen/trips_screen.dart';
+import 'package:nivaas/screens/bottom_screen/wishlist_screen.dart';
 
 class BottomNavigationScreen extends StatefulWidget {
   const BottomNavigationScreen({super.key});
@@ -28,7 +27,7 @@ class _BottomNavigationScreenState extends State<BottomNavigationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Dashboard"),
+        title: const Text("Nivaas"),
       ),
       body: screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

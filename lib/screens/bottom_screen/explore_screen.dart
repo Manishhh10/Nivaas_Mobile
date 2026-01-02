@@ -236,8 +236,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ],
       ),
     );
-}
-
+  }
 
   // SERVICES
   Widget _servicesList() {

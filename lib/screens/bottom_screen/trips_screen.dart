@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class TripsScreen extends StatelessWidget {
   const TripsScreen({super.key});
 
