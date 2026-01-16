@@ -2,11 +2,19 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:nivaas/core/constants/hive_table_constant.dart';
 import 'package:nivaas/features/auth/data/models/user_hive_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class HiveService {
   Future<void> init() async {
     final directory = await getApplicationDocumentsDirectory();
     final path = '${directory.path}/${HiveTableConstant.dbName}';
+
+    // Delete the directory to clear old data
+    final dir = Directory(path);
+    if (await dir.exists()) {
+      await dir.delete(recursive: true);
+    }
+
     Hive.init(path);
 
     _registerAdapters();
@@ -48,6 +56,10 @@ class HiveService {
 
   Future<void> deleteUser(String email) async {
     await _userBox.delete(email);
+  }
+
+  Future<void> clearAllUsers() async {
+    await _userBox.clear();
   }
 
   // Auth State Management
