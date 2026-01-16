@@ -6,35 +6,41 @@ part 'user_hive_model.g.dart';
 @HiveType(typeId: 0)
 class UserHiveModel {
   @HiveField(0)
-  final String email;
+  final String id;
 
   @HiveField(1)
-  final String password;
+  final String name;
 
   @HiveField(2)
-  final DateTime createdAt;
+  final String email;
+
+  @HiveField(3)
+  final String phoneNumber;
 
   UserHiveModel({
+    required this.id,
+    required this.name,
     required this.email,
-    required this.password,
-    required this.createdAt,
+    required this.phoneNumber,
   });
 
   // Convert UserEntity to UserHiveModel
   factory UserHiveModel.fromEntity(UserEntity entity) {
     return UserHiveModel(
+      id: entity.id,
+      name: entity.name,
       email: entity.email,
-      password: entity.password,
-      createdAt: entity.createdAt,
+      phoneNumber: entity.phoneNumber,
     );
   }
 
   // Convert UserHiveModel to UserEntity
   UserEntity toEntity() {
     return UserEntity(
+      id: id,
+      name: name,
       email: email,
-      password: password,
-      createdAt: createdAt,
+      phoneNumber: phoneNumber,
     );
   }
 
