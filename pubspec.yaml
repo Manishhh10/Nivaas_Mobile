@@ -27,6 +27,7 @@ dependencies:
 
   # Networking
   dio: ^5.4.1
+  connectivity_plus: ^6.0.0
 
   # Authentication
   flutter_secure_storage: ^10.0.0
