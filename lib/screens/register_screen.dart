@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nivaas/screens/login_screen.dart';
 import 'package:nivaas/widgets/my_button.dart';
 import 'package:nivaas/widgets/my_textfield.dart';
-import 'package:nivaas/core/services/hive/hive_service.dart';
-import 'package:nivaas/features/auth/data/models/user_hive_model.dart';
+import 'package:nivaas/core/api/api_client.dart';
+import 'package:nivaas/features/auth/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:nivaas/features/auth/data/repositories/auth_repository_impl.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,12 +19,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  late HiveService _hiveService;
+  late AuthRepositoryImpl _authRepository;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _hiveService = HiveService();
+    final apiClient = ApiClient();
+    final remoteDataSource = AuthRemoteDataSource(apiClient: apiClient);
+    _authRepository = AuthRepositoryImpl(
+      remoteDataSource: remoteDataSource,
+      apiClient: apiClient,
+    );
   }
 
   @override
@@ -46,14 +53,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _registerUser() {
+  Future<void> _registerUser() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
     String confirmPassword = _confirmPasswordController.text.trim();
     String name = _nameController.text.trim();
+    String phone = _phoneController.text.trim();
 
     // Validation
-    if (email.isEmpty || password.isEmpty || name.isEmpty) {
+    if (email.isEmpty || password.isEmpty || name.isEmpty || phone.isEmpty) {
       _showSnackBar('Please fill all fields', Colors.red);
       return;
     }
@@ -68,31 +76,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    // Check if email already exists
-    if (_hiveService.getUserByEmail(email) != null) {
-      _showSnackBar('Email already registered', Colors.red);
-      return;
+    setState(() => _isLoading = true);
+
+    try {
+      final result = await _authRepository.register(name, email, password, phone);
+
+      result.fold(
+        (failure) {
+          _showSnackBar(failure.message, Colors.red);
+        },
+        (user) {
+          _showSnackBar('Account created successfully!', Colors.green);
+          // Navigate to login after 1 second
+          Future.delayed(const Duration(seconds: 1), () {
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
+            }
+          });
+        },
+      );
+    } catch (e) {
+      _showSnackBar('An error occurred: ${e.toString()}', Colors.red);
+    } finally {
+      setState(() => _isLoading = false);
     }
-
-    // Create and save user
-    final newUser = UserHiveModel(
-      email: email,
-      password: password,
-      createdAt: DateTime.now(),
-    );
-
-    _hiveService.createUser(newUser);
-    _showSnackBar('Account created successfully!', Colors.green);
-
-    // Navigate to login after 1 second
-    Future.delayed(const Duration(seconds: 1), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      }
-    });
   }
 
   @override
@@ -163,8 +173,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 30),
                 MyButton(
-                  text: 'Register',
-                  onPressed: _registerUser,
+                  text: _isLoading ? 'Registering...' : 'Register',
+                  onPressed: _isLoading ? null : _registerUser,
                 ),
                 const SizedBox(height: 20),
                 Row(

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nivaas/screens/bottom_navigation_screen.dart';
 import 'package:nivaas/widgets/my_button.dart';
 import 'package:nivaas/widgets/my_textfield.dart';
-import 'package:nivaas/core/services/hive/hive_service.dart';
+import 'package:nivaas/core/api/api_client.dart';
+import 'package:nivaas/features/auth/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:nivaas/features/auth/data/repositories/auth_repository_impl.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,12 +17,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late HiveService _hiveService;
+  late AuthRepositoryImpl _authRepository;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _hiveService = HiveService();
+    final apiClient = ApiClient();
+    final remoteDataSource = AuthRemoteDataSource(apiClient: apiClient);
+    _authRepository = AuthRepositoryImpl(
+      remoteDataSource: remoteDataSource,
+      apiClient: apiClient,
+    );
   }
 
   @override
@@ -40,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _loginUser() {
+  Future<void> _loginUser() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
@@ -50,37 +58,33 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    // Check if user exists and password matches
-    final user = _hiveService.getUserByEmail(email);
+    setState(() => _isLoading = true);
 
-    if (user == null) {
-      _showSnackBar('Invalid email or password', Colors.red);
-      return;
+    try {
+      final result = await _authRepository.login(email, password);
+
+      result.fold(
+        (failure) {
+          _showSnackBar(failure.message, Colors.red);
+        },
+        (user) {
+          _showSnackBar('Login successful!', Colors.green);
+          // Navigate to home
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
+              );
+            }
+          });
+        },
+      );
+    } catch (e) {
+      _showSnackBar('An error occurred: ${e.toString()}', Colors.red);
+    } finally {
+      setState(() => _isLoading = false);
     }
-
-    if (user.password != password) {
-      _showSnackBar('Invalid email or password', Colors.red);
-      return;
-    }
-
-    // Save login state
-    _saveLoginState(email);
-
-    _showSnackBar('Login successful!', Colors.green);
-
-    // Navigate to home
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
-        );
-      }
-    });
-  }
-
-  void _saveLoginState(String email) {
-    _hiveService.saveLoginState(email);
   }
 
   @override
@@ -153,8 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 20),
                 MyButton(
-                  text: 'Login',
-                  onPressed: _loginUser,
+                  text: _isLoading ? 'Logging in...' : 'Login',
+                  onPressed: _isLoading ? null : _loginUser,
                 ),
                 const SizedBox(height: 20),
                 Row(
