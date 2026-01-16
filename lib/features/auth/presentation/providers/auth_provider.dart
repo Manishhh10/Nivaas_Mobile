@@ -1,27 +1,31 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nivaas/core/services/hive/hive_service.dart';
-import 'package:nivaas/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:nivaas/core/api/api_client.dart';
+import 'package:nivaas/features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:nivaas/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:nivaas/features/auth/domain/repositories/auth_repository.dart';
 import 'package:nivaas/features/auth/domain/usecases/login_usecase.dart';
 import 'package:nivaas/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:nivaas/features/auth/presentation/view_model/auth_state.dart';
 
-// Hive Service Provider
-final hiveServiceProvider = Provider<HiveService>((ref) {
-  return HiveService();
+// API Client Provider
+final apiClientProvider = Provider<ApiClient>((ref) {
+  return ApiClient();
 });
 
-// Data Source Provider
-final authDataSourceProvider = Provider<AuthLocalDataSource>((ref) {
-  final hiveService = ref.watch(hiveServiceProvider);
-  return AuthLocalDataSource(hiveService: hiveService);
+// Remote Data Source Provider
+final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return AuthRemoteDataSource(apiClient: apiClient);
 });
 
 // Repository Provider
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
-  final dataSource = ref.watch(authDataSourceProvider);
-  return AuthRepository(dataSource: dataSource);
+  final remoteDataSource = ref.watch(authRemoteDataSourceProvider);
+  final apiClient = ref.watch(apiClientProvider);
+  return AuthRepositoryImpl(
+    remoteDataSource: remoteDataSource,
+    apiClient: apiClient,
+  );
 });
 
 // Use Cases Providers
@@ -47,11 +51,11 @@ class AuthNotifier extends Notifier<AuthState> {
     return const AuthState();
   }
 
-  Future<void> signup(String email, String password) async {
+  Future<void> signup(String name, String email, String password, String phoneNumber) async {
     state = state.copyWith(status: AuthStatus.loading);
-    
-    final result = await _signupUseCase(email, password);
-    
+
+    final result = await _signupUseCase(name, email, password, phoneNumber);
+
     result.fold(
       (failure) => state = state.copyWith(
         status: AuthStatus.error,
