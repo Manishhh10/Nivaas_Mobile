@@ -17,11 +17,15 @@ class UserHiveModel {
   @HiveField(3)
   final String phoneNumber;
 
+  @HiveField(4)
+  String? profileImagePath;
+
   UserHiveModel({
     required this.id,
     required this.name,
     required this.email,
     required this.phoneNumber,
+    this.profileImagePath,
   });
 
   // Convert UserEntity to UserHiveModel
@@ -31,6 +35,7 @@ class UserHiveModel {
       name: entity.name,
       email: entity.email,
       phoneNumber: entity.phoneNumber,
+      profileImagePath: entity.profileImagePath,
     );
   }
 
@@ -41,6 +46,7 @@ class UserHiveModel {
       name: name,
       email: email,
       phoneNumber: phoneNumber,
+      profileImagePath: profileImagePath,
     );
   }
 
