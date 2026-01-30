@@ -5,6 +5,8 @@ import 'package:nivaas/widgets/my_textfield.dart';
 import 'package:nivaas/core/api/api_client.dart';
 import 'package:nivaas/features/auth/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:nivaas/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:nivaas/core/services/hive/hive_service.dart';
+import 'package:nivaas/features/auth/data/models/user_hive_model.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -29,6 +31,19 @@ class _LoginScreenState extends State<LoginScreen> {
       remoteDataSource: remoteDataSource,
       apiClient: apiClient,
     );
+
+    // Check if already logged in
+    _checkIfLoggedIn();
+  }
+
+  void _checkIfLoggedIn() {
+    final hiveService = HiveService();
+    if (hiveService.isLoggedIn()) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
+      );
+    }
   }
 
   @override
@@ -68,16 +83,19 @@ class _LoginScreenState extends State<LoginScreen> {
           _showSnackBar(failure.message, Colors.red);
         },
         (user) {
+          // Save user to Hive
+          final hiveService = HiveService();
+          final userHive = UserHiveModel.fromEntity(user);
+          hiveService.createUser(userHive);
+          hiveService.saveLoginState(user.email);
+          // Token is saved in apiClient
+
           _showSnackBar('Login successful!', Colors.green);
           // Navigate to home
-          Future.delayed(const Duration(milliseconds: 500), () {
-            if (mounted) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
-              );
-            }
-          });
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const BottomNavigationScreen()),
+          );
         },
       );
     } catch (e) {
