@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nivaas/core/services/connectivity/connectivity_service.dart';
+import 'package:nivaas/core/services/hive/hive_service.dart';
 
 class ApiClient {
   static const String baseUrl = 'http://10.0.2.2:3002/api/v1'; // For Android emulator
   final Dio _dio;
-  final FlutterSecureStorage _storage;
+  final HiveService _hiveService;
   final ConnectivityService _connectivity;
 
   ApiClient()
       : _dio = Dio(),
-        _storage = const FlutterSecureStorage(),
+        _hiveService = HiveService(),
         _connectivity = ConnectivityService() {
     _setupDio();
   }
@@ -36,7 +36,7 @@ class ApiClient {
         }
 
         // Add auth token if available
-        final token = await _storage.read(key: 'auth_token');
+        final token = _hiveService.getToken();
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
@@ -46,7 +46,7 @@ class ApiClient {
       onError: (error, handler) async {
         if (error.response?.statusCode == 401) {
           // Token expired, clear storage
-          await _storage.delete(key: 'auth_token');
+          _hiveService.logout();
           // You might want to navigate to login screen here
         }
         return handler.next(error);
@@ -71,14 +71,14 @@ class ApiClient {
   }
 
   Future<void> setAuthToken(String token) async {
-    await _storage.write(key: 'auth_token', value: token);
+    await _hiveService.saveToken(token);
   }
 
   Future<String?> getAuthToken() async {
-    return await _storage.read(key: 'auth_token');
+    return _hiveService.getToken();
   }
 
   Future<void> clearAuthToken() async {
-    await _storage.delete(key: 'auth_token');
+    _hiveService.logout();
   }
 }

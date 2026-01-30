@@ -76,12 +76,50 @@ class HiveService {
     return _authBox.get('isLoggedIn', defaultValue: false) as bool;
   }
 
+  Future<Map<String, dynamic>?> getUser() async {
+    final email = getLoggedInUser();
+    if (email != null) {
+      final user = getUserByEmail(email);
+      if (user != null) {
+        return {
+          'name': user.name,
+          'email': user.email,
+          'phone': user.phoneNumber,
+          'profileImagePath': user.profileImagePath,
+        };
+      }
+    }
+    return null;
+  }
+
+  Future<void> updateUserData(Map<String, dynamic> data) async {
+    final email = getLoggedInUser();
+    if (email != null) {
+      final user = getUserByEmail(email);
+      if (user != null) {
+        final updatedUser = UserHiveModel(
+          id: user.id,
+          name: data['name'] ?? user.name,
+          email: data['email'] ?? user.email,
+          phoneNumber: data['phone'] ?? user.phoneNumber,
+          profileImagePath: data['profileImagePath'] ?? user.profileImagePath,
+        );
+        await _userBox.put(updatedUser.email, updatedUser);
+      }
+    }
+  }
+
   Future<void> logout() async {
     await _authBox.put('loggedInUser', null);
     await _authBox.put('isLoggedIn', false);
+    await _authBox.put('token', null);
   }
 
-  Future<void> close() async {
-    await Hive.close();
+  Future<void> saveToken(String token) async {
+    await _authBox.put('token', token);
+  }
+
+  String? getToken() {
+    return _authBox.get('token');
   }
 }
