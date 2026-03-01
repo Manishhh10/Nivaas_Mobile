@@ -8,7 +8,7 @@ class AppColors {
   static const Color primaryDark = Color(0xFFE55A0E);
   static const Color primaryLight = Color(0xFFFF8B4A);
 
-  // Secondary Colors
+  // Secondary Colors   
   static const Color secondary = Color(0xFF222222);
   static const Color secondaryLight = Color(0xFF555555);
 
@@ -127,20 +127,20 @@ class AppColors {
     colors: [onboarding3Primary, onboarding3Secondary],
   );
 
-  // Dark Theme Colors
-  static const Color darkBackground = Color(0xFF0F1419);
-  static const Color darkSurface = Color(0xFF1A1F26);
-  static const Color darkSurfaceVariant = Color(0xFF242A32);
-  static const Color darkInputFill = Color(0xFF1E242C);
+  // Dark Theme Colors (balanced, not pure-black)
+  static const Color darkBackground = Color(0xFF171B22);
+  static const Color darkSurface = Color(0xFF202733);
+  static const Color darkSurfaceVariant = Color(0xFF2A3442);
+  static const Color darkInputFill = Color(0xFF2B3645);
 
   // Dark Text Colors
-  static const Color darkTextPrimary = Color(0xFFE8EAED);
-  static const Color darkTextSecondary = Color(0xFFB4B8BB);
-  static const Color darkTextTertiary = Color(0xFF7C8186);
+  static const Color darkTextPrimary = Color(0xFFF3F5F8);
+  static const Color darkTextSecondary = Color(0xFFD2D8E1);
+  static const Color darkTextTertiary = Color(0xFFA7B0BD);
 
   // Dark Border & Divider
-  static const Color darkBorder = Color(0xFF2D3339);
-  static const Color darkDivider = Color(0xFF252B33);
+  static const Color darkBorder = Color(0xFF3A4658);
+  static const Color darkDivider = Color(0xFF334055);
 
   // Shadows
   static const List<BoxShadow> cardShadow = [

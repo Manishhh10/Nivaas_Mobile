@@ -10,6 +10,13 @@ class AppTheme {
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
         brightness: Brightness.light,
+      ).copyWith(
+        primary: AppColors.primary,
+        onPrimary: Colors.white,
+        surface: AppColors.surface,
+        onSurface: AppColors.textPrimary,
+        secondary: AppColors.primary,
+        onSecondary: Colors.white,
       ),
       scaffoldBackgroundColor: AppColors.background,
 
@@ -17,7 +24,8 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
         iconTheme: IconThemeData(color: AppColors.textPrimary),
         titleTextStyle: TextStyle(
@@ -121,7 +129,28 @@ class AppTheme {
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: Colors.white,
+        color: AppColors.surface,
+      ),
+
+      listTileTheme: const ListTileThemeData(
+        textColor: AppColors.textPrimary,
+        iconColor: AppColors.textSecondary,
+      ),
+
+      iconTheme: const IconThemeData(color: AppColors.textPrimary),
+
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(fontFamily: 'Inter', color: AppColors.textPrimary),
+        bodyMedium: TextStyle(fontFamily: 'Inter', color: AppColors.textPrimary),
+        bodySmall: TextStyle(fontFamily: 'Inter', color: AppColors.textSecondary),
+        titleLarge: TextStyle(fontFamily: 'Inter', color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+        titleMedium: TextStyle(fontFamily: 'Inter', color: AppColors.textPrimary, fontWeight: FontWeight.w500),
+        labelLarge: TextStyle(fontFamily: 'Inter', color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+      ),
+
+      dividerTheme: const DividerThemeData(
+        color: AppColors.divider,
+        thickness: 1,
       ),
 
       // Checkbox Theme
@@ -153,14 +182,30 @@ class AppTheme {
         seedColor: AppColors.primary,
         brightness: Brightness.dark,
         surface: AppColors.darkSurface,
+      ).copyWith(
+        primary: AppColors.primary,
+        onPrimary: Colors.white,
+        primaryContainer: AppColors.primaryDark,
+        onPrimaryContainer: Colors.white,
+        surface: AppColors.darkSurface,
+        onSurface: AppColors.darkTextPrimary,
+        surfaceVariant: AppColors.darkSurfaceVariant,
+        onSurfaceVariant: AppColors.darkTextSecondary,
+        outline: AppColors.darkBorder,
+        secondary: AppColors.primary,
+        onSecondary: Colors.white,
+        error: AppColors.error,
+        onError: Colors.white,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
+      canvasColor: AppColors.darkSurface,
 
       // AppBar Theme
       appBarTheme: const AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.darkSurface,
+        surfaceTintColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: IconThemeData(color: AppColors.darkTextPrimary),
         titleTextStyle: TextStyle(
@@ -278,7 +323,12 @@ class AppTheme {
       cardTheme: CardThemeData(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        color: AppColors.darkSurface,
+        color: AppColors.darkSurfaceVariant,
+      ),
+
+      listTileTheme: const ListTileThemeData(
+        textColor: AppColors.darkTextPrimary,
+        iconColor: AppColors.darkTextSecondary,
       ),
 
       // Checkbox Theme
@@ -305,9 +355,26 @@ class AppTheme {
 
       // Dialog Theme
       dialogTheme: DialogThemeData(
-        backgroundColor: AppColors.darkSurface,
+        backgroundColor: AppColors.darkSurfaceVariant,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         elevation: 8,
+      ),
+
+      // Bottom sheet theme
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.darkSurfaceVariant,
+        surfaceTintColor: Colors.transparent,
+      ),
+
+      // Popup menu theme
+      popupMenuTheme: PopupMenuThemeData(
+        color: AppColors.darkSurfaceVariant,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          color: AppColors.darkTextPrimary,
+        ),
       ),
 
       // Divider Theme
@@ -445,6 +512,13 @@ class AppTheme {
       // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
+      ),
+
+      // Text selection / cursor readability
+      textSelectionTheme: TextSelectionThemeData(
+        cursorColor: AppColors.primary,
+        selectionColor: AppColors.primary.withValues(alpha: 0.35),
+        selectionHandleColor: AppColors.primary,
       ),
     );
   }
