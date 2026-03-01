@@ -20,34 +20,50 @@ void main() {
         name: 'Test User',
         email: 'test@example.com',
         password: 'secret',
+        confirmPassword: 'secret',
         phoneNumber: '1234567890',
       );
       expect(request.toJson(), {
         'name': 'Test User',
         'email': 'test@example.com',
         'password': 'secret',
+        'confirmPassword': 'secret',
         'phoneNumber': '1234567890',
       });
     });
 
-    test('AuthResponse.fromJson parses nested UserData', () {
-      final response = AuthResponse.fromJson({
-        'success': true,
-        'token': 'token123',
+    test('LoginResponse.fromJson parses token', () {
+      final response = LoginResponse.fromJson({
+        'message': 'Login successful',
         'data': {
-          'id': 'user1',
+          'token': 'token123',
+        },
+      });
+
+      expect(response.message, 'Login successful');
+      expect(response.token, 'token123');
+    });
+
+    test('VerifyResponse.fromJson parses user and hostStatus', () {
+      final response = VerifyResponse.fromJson({
+        'message': 'Verified',
+        'user': {
+          '_id': 'user1',
           'name': 'Alice',
           'email': 'alice@example.com',
           'phoneNumber': '9876543210',
         },
+        'hostStatus': {
+          'status': 'verified',
+          'isVerifiedHost': true,
+        },
       });
 
-      expect(response.success, isTrue);
-      expect(response.token, 'token123');
-      expect(response.data?.id, 'user1');
-      expect(response.data?.name, 'Alice');
-      expect(response.data?.email, 'alice@example.com');
-      expect(response.data?.phoneNumber, '9876543210');
+      expect(response.message, 'Verified');
+      expect(response.user?.id, 'user1');
+      expect(response.user?.name, 'Alice');
+      expect(response.user?.email, 'alice@example.com');
+      expect(response.hostStatus?.isVerifiedHost, isTrue);
     });
 
     test('UserHiveModel.fromEntity and toEntity preserve fields', () {
