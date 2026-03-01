@@ -6,6 +6,7 @@ class UserEntity extends Equatable {
   final String email;
   final String phoneNumber;
   final String? profileImagePath;
+  final String role;
 
   const UserEntity({
     required this.id,
@@ -13,8 +14,11 @@ class UserEntity extends Equatable {
     required this.email,
     required this.phoneNumber,
     this.profileImagePath,
+    this.role = 'user',
   });
 
+  bool get isAdmin => role.trim().toLowerCase() == 'admin';
+
   @override
-  List<Object?> get props => [id, name, email, phoneNumber, profileImagePath];
+  List<Object?> get props => [id, name, email, phoneNumber, profileImagePath, role];
 }

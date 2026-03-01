@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nivaas/core/api/api_client.dart';
-import 'package:nivaas/features/auth/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:nivaas/features/auth/data/datasource/remote/auth_remote_datasource.dart';
 import 'package:nivaas/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:nivaas/features/auth/domain/repositories/auth_repository.dart';
 import 'package:nivaas/features/auth/domain/usecases/login_usecase.dart';
